@@ -5,6 +5,7 @@ const router = express.Router();
 
 router.post('/', (req, res) => {
     const { email, password } = req.body;
+    console.log(email, password);
     User.find()
         .then((users) => {
             users.forEach((user) => {
