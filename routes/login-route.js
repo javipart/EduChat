@@ -14,11 +14,6 @@ router.post('/', async (req, res) => {
                         id: user._id,
                     });
                 }
-                else {
-                    res.status(422).send({
-                        status: 'Invalid Password'
-                    })
-                }
             });
         })
         .catch((err) => {
