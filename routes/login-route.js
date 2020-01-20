@@ -9,6 +9,7 @@ router.post('/', (req, res) => {
     User.find()
         .then((users) => {
             users.forEach((user) => {
+                console.log(user);
                 if(user.email === email && user.password === password) {
                     res.send({
                         status: 'ok',
