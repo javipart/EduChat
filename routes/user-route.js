@@ -14,7 +14,6 @@ router.post('/create', async (req, res) => {
 
 router.get('/', (req, res) => {
     const { id } = req.body;
-    console.log(id);
     User.findById(id)
         .then((user) => {
             res.send({
