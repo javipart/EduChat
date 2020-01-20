@@ -7,7 +7,7 @@ router.post('/', (req, res) => {
     const { email, password } = req.body;
     User.find()
         .then((users) => {
-            users.forEach(function(user) {
+            users.forEach((user) => {
                 if(user.email === email && user.password === password) {
                     res.send({
                         status: 'ok',
@@ -16,7 +16,7 @@ router.post('/', (req, res) => {
                 }
                 else {
                     res.status(422).send({
-                        status: 'error'
+                        status: 'Invalid Password'
                     })
                 }
             });
