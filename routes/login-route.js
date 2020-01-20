@@ -3,13 +3,11 @@ const User = require('../models/User.js');
 
 const router = express.Router();
 
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
     const { email, password } = req.body;
-    console.log(email, password);
-    User.find()
+    await User.find()
         .then((users) => {
             users.forEach((user) => {
-                console.log(user);
                 if(user.email === email && user.password === password) {
                     res.send({
                         status: 'ok',

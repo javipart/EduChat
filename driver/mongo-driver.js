@@ -6,7 +6,7 @@ const mongoPort = '27017';
 const mongoCollection = 'educhat';
 const URI = `mongodb://${mongoIP}:${mongoPort}/${mongoCollection}`;
 
-const db = mongoose.connect(connectionString, { useNewUrlParser: true, useCreateIndex: true, useFindAndModify: false, useUnifiedTopology: true}, (err) => {
+const db = mongoose.connect(connectionString, (err) => {
   if (err) {
     console.log(err);
   } else {
