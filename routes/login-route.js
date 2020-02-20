@@ -16,16 +16,21 @@ router.post('/', async (req, res) => {
                         user,
                     };
                 }
-                res.send(data);
             });
+            if (!data) {
+                data = {
+                    status: 'fail',
+                    message: 'Usuario no valido',
+                };
+            }     
         })
         .catch((err) => {
             data = {
                 status: 'error',
                 error: err,
             };
-            res.send(data);
         });
+        res.send(data)
 });
 
 module.exports = router;
