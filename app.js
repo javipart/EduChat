@@ -7,6 +7,7 @@ const subjectRoute = require('./routes/subject-route');
 const groupRoute = require('./routes/group-route');
 const userRoute = require('./routes/user-route');
 const inscriptionRoute = require('./routes/inscription-route');
+const chatRoute = require('./routes/chat-route');
 
 const app = express();
 
@@ -22,6 +23,7 @@ app.use('/subject', subjectRoute);
 app.use('/group', groupRoute);
 app.use('/user', userRoute);
 app.use('/inscription', inscriptionRoute);
+app.use('/chat', chatRoute);
 
 app.listen(port, () => {
   console.log(`Server on port ${port}`);

@@ -2,11 +2,6 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const chatSchema = new Schema({
-    id: {
-        type: String,
-        required: true,
-        unique: true,
-    },
     idGroup: {
         type: Schema.Types.ObjectId,
         ref: 'groups',
@@ -23,8 +18,8 @@ const chatSchema = new Schema({
     },
     date: {
         type: Date,
-        required: true,
+        default: Date.now(),
     }, 
 });
 
-module.exports = mongoose.model('grades', chatSchema);
+module.exports = mongoose.model('chats', chatSchema);

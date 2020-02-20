@@ -4,14 +4,6 @@ const User = require('../models/User');
 
 const router = express.Router();
 
-const getUser = (id) => {
-    User.findById(id).then((student) => {
-        return student;
-    }).catch((err) => {
-        return err;
-    })
-}
-
 router.post('/', async (req, res) => {
     const { idStudent, idGroup } = req.body;
     await Inscription.find()
@@ -59,6 +51,25 @@ router.get('/', async (req, res) => {
                 id: inscription[0]._id,
             });
         });
+});
+
+router.get('/:id', async (req, res) => {
+    const idStudent = req.params.id;
+    let data;
+    await Inscription.find( { "idStudent": idStudent } )
+        .then((inscriptions) => {
+            data = {
+                status: 'ok',
+                inscriptions,
+            }
+        })
+        .catch((err) => {
+            data = {
+                status: 'error',
+                err,
+            }
+        });
+        res.send(data);
 });
 
 module.exports = router;
