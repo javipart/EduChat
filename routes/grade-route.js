@@ -9,7 +9,13 @@ router.post('/', async (req, res) => {
         .then((grade) => {
             res.send({
                 status: 'ok',
-                id: grade[0]._id,
+                data: grade[0]._id,
+            });
+        })
+        .catch((error) => {
+            res.send({
+                status: 'error',
+                data: error,
             });
         });
 });

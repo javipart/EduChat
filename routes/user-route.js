@@ -12,24 +12,38 @@ router.post('/create', async (req, res) => {
         });
 });
 
-router.get('/', (req, res) => {
-    const { id } = req.body;
-    User.findById(id)
-        .then((user) => {
-            res.send({
-                name: user.name,
-                email: user.email,
-                document: user.document,
-                code: user.code,
-                typeUser: user.typeUser,
-            })
-        })
-        .catch((err) => {
-            res.send({
-                status: 'error',
-                error: err,
-            })
-        });
-})
+router.get('/student', (req, res) => {
+    let data = null;
+    User.find( { "typeUser": 'student' } ).then((result) => {
+        data = {
+            result,
+            status: 'ok',
+        };
+        res.send(data);
+    }).catch((err) => {
+        data = {
+            err,
+            status: 'error',
+        };
+        res.send(data);
+    });
+});
+
+router.get('/teacher', (req, res) => {
+    let data = null;
+    User.find( { "typeUser": 'teacher' } ).then((result) => {
+        data = {
+            result,
+            status: 'ok',
+        };
+        res.send(data);
+    }).catch((err) => {
+        data = {
+            err,
+            status: 'error',
+        };
+        res.send(data);
+    });
+});
 
 module.exports = router;

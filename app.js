@@ -6,6 +6,7 @@ const gradeRoute = require('./routes/grade-route');
 const subjectRoute = require('./routes/subject-route');
 const groupRoute = require('./routes/group-route');
 const userRoute = require('./routes/user-route');
+const inscriptionRoute = require('./routes/inscription-route');
 
 const app = express();
 
@@ -20,6 +21,7 @@ app.use('/grade', gradeRoute);
 app.use('/subject', subjectRoute);
 app.use('/group', groupRoute);
 app.use('/user', userRoute);
+app.use('/inscription', inscriptionRoute);
 
 app.listen(port, () => {
   console.log(`Server on port ${port}`);

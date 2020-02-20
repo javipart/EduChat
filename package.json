@@ -5,7 +5,10 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint .",
+    "lint-init": "eslint --init",
+    "lint-fix": "eslint . --fix"
   },
   "keywords": [],
   "author": "",
@@ -16,5 +19,13 @@
     "express": "^4.17.1",
     "mongoose": "^5.7.6",
     "nodemon": "^1.19.4"
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-plugin-import": "^2.20.0",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.18.0",
+    "eslint-plugin-react-hooks": "^1.7.0"
   }
 }

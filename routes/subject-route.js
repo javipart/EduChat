@@ -14,4 +14,11 @@ router.post('/create', async (req, res) => {
         });
 });
 
+router.get('/', async (req, res) => {
+    await Subject.find()
+        .then((subjects) => {
+            res.send(subjects);
+        });
+})
+
 module.exports = router;
