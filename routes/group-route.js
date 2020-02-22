@@ -5,13 +5,19 @@ const router = express.Router();
 
 router.post('/create', async (req, res) => {
     await Group.create(req.body);
-    Group.find({ "id": req.body.id })
+    await Group.find({ "name": req.body.name })
         .then((group) => {
             res.send({
                 status: 'ok',
                 id: group[0]._id,
             });
-        });
+        })
+        .catch(err => {
+            res.send({
+                status: 'error',
+                error: err,
+            })
+        })
 });
 
 router.get('/', async (req, res) => {
