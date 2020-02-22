@@ -4,8 +4,7 @@ const Group = require('../models/Group');
 const router = express.Router();
 
 router.post('/create', async (req, res) => {
-    await Group.create(req.body);
-    await Group.find({ "name": req.body.name })
+    await Group.create(req.body)
         .then((group) => {
             res.send({
                 status: 'ok',

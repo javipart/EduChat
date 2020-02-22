@@ -4,8 +4,7 @@ const Grade = require('../models/Grade');
 const router = express.Router();
 
 router.post('/', async (req, res) => {
-    await Grade.create(req.body);
-    Grade.find({ "id": req.body.id })
+    await Grade.create(req.body)
         .then((grade) => {
             res.send({
                 status: 'ok',

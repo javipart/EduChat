@@ -11,9 +11,9 @@ const gradeSchema = new Schema({
         type: String,
         required: true,
     },
-    idGroup: {
+    idSubject: {
         type: Schema.Types.ObjectId,
-        ref: 'groups',
+        ref: 'subjects',
         required: true,
     },
 });

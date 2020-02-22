@@ -4,30 +4,23 @@ const User = require('../models/User');
 const router = express.Router();
 
 router.post('/create', async (req, res) => {
-    const { code } = req.body;
-    console.log('Ingresa')
-    await User.find((users) => {
-        console.log(users);
-        users.forEach(async (user) => {
-            if (user.code !== code) {
-                await User.create(req.bodu).then(
-                    res.send({
-                        status: 'pk',
-                    })
-                )
-            }
-            else {
-                res.status(422).send({
-                    status: 'error'
-                })
-            }
-        });
-    });
+    await User.create(req.bodu).then((user) => {
+        res.send({
+            status: 'pk',
+            id: user[0]._id,
+        })
+    })
+    .catch((err) => {
+        res.status(422).send({
+            status: 'error',
+            error: err,
+        })
+    })
 });
 
 router.get('/student', (req, res) => {
     let data = null;
-    User.find( { "typeUser": 'student' } ).then((result) => {
+    User.find({ "typeUser": 'student' }).then((result) => {
         data = {
             result,
             status: 'ok',
@@ -44,7 +37,7 @@ router.get('/student', (req, res) => {
 
 router.get('/teacher', (req, res) => {
     let data = null;
-    User.find( { "typeUser": 'teacher' } ).then((result) => {
+    User.find({ "typeUser": 'teacher' }).then((result) => {
         data = {
             result,
             status: 'ok',
