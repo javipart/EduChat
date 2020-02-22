@@ -2,11 +2,6 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const gradeSchema = new Schema({
-    id: {
-        type: String,
-        required: true,
-        unique: true,
-    },
     grade: {
         type: String,
         required: true,
@@ -15,6 +10,11 @@ const gradeSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'subjects',
         required: true,
+    },
+    description: {
+        type: String,
+        required: true,
+        unique: true,
     },
 });
 
