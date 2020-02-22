@@ -1,8 +1,20 @@
 const express = require('express');
 const Inscription = require('../models/Inscription');
 const User = require('../models/User');
-
+const fs = require('fs');
 const router = express.Router();
+
+router.post('/upload',(req,res) => {
+    const EDFile = req.files.file;
+    EDFile.mv(`./filesUpload/${EDFile.name}`,err => {
+        if(err) return res.status(500).send({ message : err })
+        return res.status(200).send({ message : 'File upload' })
+    })
+    fs.readFile(`./filesUpload/${EDFile.name}`, (err, data) => {
+        if (err) throw err;
+        console.log(data);
+    })
+});
 
 router.post('/', async (req, res) => {
     const { idStudent, idGroup } = req.body;

@@ -19,7 +19,7 @@ router.get('/:id', async (req, res) => {
     const idGroup = req.params.id;
     Chat.find( { "idGroup": idGroup } ).then((chats) => {
         res.send(chats);
-    })
+    });
 });
 
 module.exports = router;

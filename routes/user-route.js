@@ -4,12 +4,25 @@ const User = require('../models/User');
 const router = express.Router();
 
 router.post('/create', async (req, res) => {
-    await User.create(req.body)
-        .then(() => {
-            res.send({
-                status: 'ok',
-            })
+    const { code } = req.body;
+    console.log('Ingresa')
+    await User.find((users) => {
+        console.log(users);
+        users.forEach(async (user) => {
+            if (user.code !== code) {
+                await User.create(req.bodu).then(
+                    res.send({
+                        status: 'pk',
+                    })
+                )
+            }
+            else {
+                res.status(422).send({
+                    status: 'error'
+                })
+            }
         });
+    });
 });
 
 router.get('/student', (req, res) => {
