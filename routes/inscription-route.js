@@ -11,8 +11,8 @@ const validateUser = async (userToCreate, inscriptions, idGroup, nameGroup) => {
                 if (user.email === usr.email
                     && user.document === usr.document
                     && user.code === usr.code) {
-                        inscriptions.push({ idStudent: user._id, idGroup, idInscription: `${user.code}${nameGroup}` });
-                    }
+                    inscriptions.push({ idStudent: user._id, idGroup, idInscription: `${user.code}${nameGroup}` });
+                }
             });
         });
     });
@@ -92,10 +92,15 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
     const idStudent = mongoose.Types.ObjectId(req.params.id);
     let data;
-    await Inscription.find( { "idStudent": idStudent } )
+    await Inscription.find({ "idStudent": idStudent }).populate({
+        path: 'Group',
+        populate: {
+            path: 'Subject',
+        }
+    })
         .then((inscriptions) => {
             data = {
-                status: '0',
+                status: 'ok',
                 inscriptions,
             }
         })
