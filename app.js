@@ -9,7 +9,6 @@ const groupRoute = require('./routes/group-route');
 const userRoute = require('./routes/user-route');
 const inscriptionRoute = require('./routes/inscription-route');
 const chatRoute = require('./routes/chat-route');
-
 const app = express();
 
 app.use(bodyParser.json());
