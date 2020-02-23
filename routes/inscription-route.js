@@ -90,6 +90,7 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
     const idStudent = req.params.id;
+    console.log(idStudent)
     let data;
     await Inscription.find().populate({
         path: 'User',
