@@ -93,8 +93,12 @@ router.get('/:id', async (req, res) => {
     const idStudent = mongoose.Types.ObjectId(req.params.id);
     let data;
     await Inscription.find({ "idStudent": idStudent })
-        .populate('idGroup')
-        .populate('idStudent')
+        .populate({
+            path: 'idGroup',
+            populate: {
+                path: 'idSuject',
+            },
+        })
         .exec()
         .then((inscriptions) => {
             data = {
