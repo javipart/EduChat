@@ -95,7 +95,7 @@ router.get('/:id', async (req, res) => {
     await Inscription.find({ "idStudent": idStudent }).populate({
         path: 'idGroup',
         populate: {
-            path: 'idSubject'
+            path: 'idSubject',
         }
     }).exec()
         .then((inscriptions) => {
