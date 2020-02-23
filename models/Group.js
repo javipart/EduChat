@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
-const users = mongoose.model('users')
 
 const groupSchema = new Schema({
     name: {

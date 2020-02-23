@@ -4,10 +4,10 @@ const User = require('../models/User');
 const router = express.Router();
 
 router.post('/create', async (req, res) => {
-    await User.create(req.bodu).then((user) => {
+    await User.create(req.body).then((user) => {
         res.send({
             status: 'pk',
-            id: user[0]._id,
+            id: user._id,
         })
     })
     .catch((err) => {

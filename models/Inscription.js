@@ -2,6 +2,11 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const inscriptionSchema = new Schema({
+    idInscription: {
+        type: String,
+        required: true,
+        unique: true,
+    },
     idStudent: {
         type: Schema.Types.ObjectId,
         ref: 'users',

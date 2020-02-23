@@ -3,12 +3,34 @@ const Inscription = require('../models/Inscription');
 const User = require('../models/User');
 const router = express.Router();
 
-router.post('/upload', (req, res) => {
+const validateUser = async (userToCreate, inscriptions, idGroup, nameGroup) => {
+    const resFi = await User.find().then(async (users) => {
+        const usFE = users.forEach(async (user) => {
+            const usTC = await userToCreate.forEach(async usr => {
+                if (user.email === usr.email
+                    && user.document === usr.document
+                    && user.code === usr.code) {
+                        inscriptions.push({ idStudent: user._id, idGroup, idInscription: `${user.code}${nameGroup}` });
+                    }
+            });
+            return usTC;
+        });
+        return usFE;
+    });
+    console.log(resFi);
+    return resFi;
+};
+
+router.post('/upload', async (req, res) => {
     const { file } = req.files;
+    const { idGroup, nameGroup } = req.body;
     const path = `${__dirname}/../files/${file.name}`;
+    let msgFile = '';
+    let responses = [];
+    let response = '';
     file.mv(path, (err) => {
-        if (err) return res.status(500).send({ message: err })
-        return res.status(200).send({ message: 'File upload' })
+        if (err) msgFile = err.errmsg;
+        msgFile = 'File Upload';
     });
     const readLine = require('readline'),
         fs = require('fs');
@@ -16,57 +38,52 @@ router.post('/upload', (req, res) => {
     const reader = readLine.createInterface({
         input: fs.createReadStream(path)
     });
-
-    reader.on("line", line => {
-        const fields = line.split(';')
-        const user = {
-            email: fields[0],
-            name: fields[1],
-            document: fields[2],
-            code: fields[3],
-            password: fields[4],
-            typeUser: 'student',
-        };
-        User.create(user);
-    });
-});
-
-router.post('/', async (req, res) => {
-    const { idStudent, idGroup } = req.body;
-    await Inscription.find()
-        .then(async (inscriptions) => {
-            if (inscriptions.length === 0) {
-                await Inscription.create(req.body).then(() => {
-                    res.send({
-                        status: 'ok',
-                    });
-                })
-            }
-            else {
-                inscriptions.forEach((inscription) => {
-                    if (inscription.idStudent.toString() === idStudent.toString() && inscription.idGroup.toString() === idGroup.toString()) {
-                        data = {
-                            status: 'ok',
-                            message: 'Ya se realizó la inscripción',
-                        };
-                    }
-                    else {
-                        data = {
-                            status: 'ok',
-                            message: 'Incripción realizada',
-                        };
-                    }
-                    res.send(data);
-                });
-            }
-        })
-        .catch((err) => {
-            data = {
-                status: 'error',
-                error: err,
+    let users = [];
+    let inscriptions = [];
+    const usersFile = new Promise(async (resReader, errReader) => {
+        reader.on("line", line => {
+            const fields = line.split(';')
+            const user = {
+                email: fields[0],
+                name: fields[1],
+                document: fields[2],
+                code: fields[3],
+                password: fields[4],
+                typeUser: 'student',
             };
-            res.send(data);
+            users.push(user);
+            resReader(users);
         });
+    });
+    let idSt = '';
+    let idG = '';
+    let idIn = '';
+    await usersFile.then(async (respFile) => {
+        await validateUser(respFile, inscriptions, idGroup, nameGroup);
+        await User.create(respFile).then(resUC => {
+            resUC.map((uc) => {
+                inscriptions.push({ idStudent: uc._id, idGroup, idInscription: `${uc.code}${nameGroup}` });
+            })
+        }).catch((err) => {
+            res.send({
+                status: 'error',
+                error: err.errmsg,
+            });
+        });
+    });
+
+    await Inscription.create(inscriptions).then((resIns) => {
+        res.send({
+            status: 'ok',
+            msgFile,
+            resIns,
+        });
+    }).catch((err) => {
+        res.send({
+            status: 'error',
+            error: err.errmsg,
+        });
+    })
 });
 
 router.get('/', async (req, res) => {
@@ -75,7 +92,7 @@ router.get('/', async (req, res) => {
         .then((inscription) => {
             res.send({
                 status: 'ok',
-                id: inscription[0]._id,
+                id: inscription._id,
             });
         });
 });
@@ -93,7 +110,7 @@ router.get('/:id', async (req, res) => {
         .catch((err) => {
             data = {
                 status: 'error',
-                err,
+                error: err.errmsg,
             }
         });
     res.send(data);

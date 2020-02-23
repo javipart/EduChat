@@ -8,7 +8,7 @@ router.post('/create', async (req, res) => {
         .then((subject) => {
             res.send({
                 status: 'ok',
-                id: subject[0]._id,
+                id: subject._id,
             });
         })
         .catch((err) => {
