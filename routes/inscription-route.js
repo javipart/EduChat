@@ -76,7 +76,7 @@ router.post('/upload', async (req, res) => {
         res.send({
             status: 'ok',
             msgFile,
-            resIns,
+            inscriptions: resIns,
         });
     }).catch((err) => {
         res.send({
