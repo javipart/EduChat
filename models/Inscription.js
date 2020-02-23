@@ -12,11 +12,11 @@ const inscriptionSchema = new Schema({
         ref: 'users',
         required: true,
     },
-    idGroup: {
+    idGroup: [{
         type: Schema.Types.ObjectId,
         ref: 'groups',
         required: true,
-    },
+    }],
 });
 
 module.exports = mongoose.model('inscriptions', inscriptionSchema);
