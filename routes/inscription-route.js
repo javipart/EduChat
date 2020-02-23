@@ -97,7 +97,7 @@ router.get('/:id', async (req, res) => {
         populate: {
             path: 'Subject',
         }
-    })
+    }).exec()
         .then((inscriptions) => {
             data = {
                 status: 'ok',
