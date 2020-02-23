@@ -8,13 +8,13 @@ router.post('/create', async (req, res) => {
         .then((group) => {
             res.send({
                 status: 'ok',
-                id: group[0]._id,
+                id: group._id,
             });
         })
         .catch(err => {
             res.send({
                 status: 'error',
-                error: err,
+                error: err.errmsg,
             })
         })
 });

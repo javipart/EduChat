@@ -34,6 +34,7 @@ router.post('/upload', async (req, res) => {
     });
     let users = [];
     let inscriptions = [];
+    let msgUser = '';
     const usersFile = new Promise(async (resReader, errReader) => {
         reader.on("line", line => {
             const fields = line.split(';')
@@ -54,12 +55,10 @@ router.post('/upload', async (req, res) => {
         await User.create(respFile).then(resUC => {
             resUC.map((uc) => {
                 inscriptions.push({ idStudent: uc._id, idGroup, idInscription: `${uc.code}${nameGroup}` });
-            })
-        }).catch((err) => {
-            res.send({
-                status: 'error',
-                error: err.errmsg,
             });
+            msgUser = 'ok';
+        }).catch((err) => {
+            msgUser = err;
         });
     });
 
@@ -68,22 +67,23 @@ router.post('/upload', async (req, res) => {
             status: 'ok',
             msgFile,
             inscriptions: resIns,
+            msgUser,
         });
     }).catch((err) => {
         res.send({
             status: 'error',
             error: err.errmsg,
+            msgUser,
         });
     })
 });
 
 router.get('/', async (req, res) => {
-    await Inscription.create(req.body);
-    Inscription.find({ "id": req.body.id })
-        .then((inscription) => {
+    Inscription.find()
+        .then((inscriptions) => {
             res.send({
                 status: 'ok',
-                id: inscription._id,
+                inscriptions,
             });
         });
 });
