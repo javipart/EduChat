@@ -4,21 +4,17 @@ const User = require('../models/User');
 const router = express.Router();
 
 const validateUser = async (userToCreate, inscriptions, idGroup, nameGroup) => {
-    const resFi = await User.find().then(async (users) => {
-        const usFE = users.forEach(async (user) => {
-            const usTC = await userToCreate.forEach(async usr => {
+    await User.find().then(async (users) => {
+        users.forEach(async (user) => {
+            await userToCreate.forEach(async usr => {
                 if (user.email === usr.email
                     && user.document === usr.document
                     && user.code === usr.code) {
                         inscriptions.push({ idStudent: user._id, idGroup, idInscription: `${user.code}${nameGroup}` });
                     }
             });
-            return usTC;
         });
-        return usFE;
     });
-    console.log(resFi);
-    return resFi;
 };
 
 router.post('/upload', async (req, res) => {
@@ -26,8 +22,6 @@ router.post('/upload', async (req, res) => {
     const { idGroup, nameGroup } = req.body;
     const path = `${__dirname}/../files/${file.name}`;
     let msgFile = '';
-    let responses = [];
-    let response = '';
     file.mv(path, (err) => {
         if (err) msgFile = err.errmsg;
         msgFile = 'File Upload';
@@ -55,9 +49,6 @@ router.post('/upload', async (req, res) => {
             resReader(users);
         });
     });
-    let idSt = '';
-    let idG = '';
-    let idIn = '';
     await usersFile.then(async (respFile) => {
         await validateUser(respFile, inscriptions, idGroup, nameGroup);
         await User.create(respFile).then(resUC => {
