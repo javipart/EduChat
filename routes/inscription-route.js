@@ -93,9 +93,9 @@ router.get('/:id', async (req, res) => {
     const idStudent = mongoose.Types.ObjectId(req.params.id);
     let data;
     await Inscription.find({ "idStudent": idStudent }).populate({
-        path: 'Group',
+        path: 'group',
         populate: {
-            path: 'Subject',
+            path: 'subject',
         }
     }).exec()
         .then((inscriptions) => {
