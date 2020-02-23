@@ -2,6 +2,7 @@ const express = require('express');
 const Inscription = require('../models/Inscription');
 const User = require('../models/User');
 const router = express.Router();
+const mongoose = require('mongoose');
 
 const validateUser = async (userToCreate, inscriptions, idGroup, nameGroup) => {
     await User.find().then(async (users) => {
@@ -89,13 +90,9 @@ router.get('/', async (req, res) => {
 });
 
 router.get('/:id', async (req, res) => {
-    const idStudent = req.params.id;
-    console.log(idStudent)
+    const idStudent = mongoose.Types.ObjectId(req.params.id);
     let data;
-    await Inscription.find().populate({
-        path: 'User',
-        match: {"_id": ObjectId(idStudent)}
-    }).exec()
+    await Inscription.find( { "idStudent": idStudent } )
         .then((inscriptions) => {
             data = {
                 status: 'ok',
