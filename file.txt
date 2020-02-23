@@ -1,2 +1,2 @@
-ivan javier pardo toloza
-angela milena paipa vargas
+ivan.pardo@uptc.edu.co;Javier Pardo;10203040;20152030;123qwe
+sebastian.caceres@uptc.edu.co;Sebastian Caceres;20304050;20156090;123qwe

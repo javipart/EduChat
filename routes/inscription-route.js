@@ -1,19 +1,34 @@
 const express = require('express');
 const Inscription = require('../models/Inscription');
 const User = require('../models/User');
-const fs = require('fs');
 const router = express.Router();
 
-router.post('/upload',(req,res) => {
-    const EDFile = req.files.file;
-    EDFile.mv(`./filesUpload/${EDFile.name}`,err => {
-        if(err) return res.status(500).send({ message : err })
-        return res.status(200).send({ message : 'File upload' })
-    })
-    fs.readFile(`./filesUpload/${EDFile.name}`, (err, data) => {
-        if (err) throw err;
-        console.log(data);
-    })
+router.post('/upload', (req, res) => {
+    const { file } = req.files;
+    const path = `${__dirname}/../files/${file.name}`;
+    file.mv(path, (err) => {
+        if (err) return res.status(500).send({ message: err })
+        return res.status(200).send({ message: 'File upload' })
+    });
+    const readLine = require('readline'),
+        fs = require('fs');
+
+    const reader = readLine.createInterface({
+        input: fs.createReadStream(path)
+    });
+
+    reader.on("line", line => {
+        const fields = line.split(';')
+        const user = {
+            email: fields[0],
+            name: fields[1],
+            document: fields[2],
+            code: fields[3],
+            password: fields[4],
+            typeUser: 'student',
+        };
+        User.create(user);
+    });
 });
 
 router.post('/', async (req, res) => {
@@ -68,7 +83,7 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
     const idStudent = req.params.id;
     let data;
-    await Inscription.find( { "idStudent": idStudent } )
+    await Inscription.find({ "idStudent": idStudent })
         .then((inscriptions) => {
             data = {
                 status: 'ok',
@@ -81,7 +96,7 @@ router.get('/:id', async (req, res) => {
                 err,
             }
         });
-        res.send(data);
+    res.send(data);
 });
 
 module.exports = router;
