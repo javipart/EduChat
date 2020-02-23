@@ -96,8 +96,8 @@ router.get('/:id', async (req, res) => {
         .populate({
             path: 'idGroup',
             populate: {
-                path: 'idSuject',
-            },
+                path: 'idSubject',
+            }
         })
         .exec()
         .then((inscriptions) => {
