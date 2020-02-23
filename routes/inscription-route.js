@@ -95,7 +95,7 @@ router.get('/:id', async (req, res) => {
     await Inscription.find( { "idStudent": idStudent } )
         .then((inscriptions) => {
             data = {
-                status: 'ok',
+                status: '0',
                 inscriptions,
             }
         })
