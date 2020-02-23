@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const subjects = mongoose.model('subjects');
 const { Schema } = mongoose;
 
 const groupSchema = new Schema({
