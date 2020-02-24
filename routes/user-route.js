@@ -6,7 +6,7 @@ const router = express.Router();
 router.post('/create', async (req, res) => {
     await User.create(req.body).then((user) => {
         res.send({
-            status: 'pk',
+            status: 'ok',
             id: user._id,
         })
     })
