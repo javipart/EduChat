@@ -1,6 +1,7 @@
 const express = require('express');
 const Inscription = require('../models/Inscription');
 const User = require('../models/User');
+const Chat = require('./chat-route');
 const router = express.Router();
 const mongoose = require('mongoose');
 

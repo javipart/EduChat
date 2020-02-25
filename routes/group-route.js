@@ -26,6 +26,17 @@ router.get('/', async (req, res) => {
         .then((groups) => {
             res.send(groups);
         });
-})
+});
+
+router.get('/:id', async (req, res) => {
+    const idTeacher = req.params.id;
+    await Group.find({ "idTeacher": idTeacher })
+        .populate('idSubject')
+        .populate('idTeacher')
+        .exec()
+        .then((groups) => {
+            res.send(groups); n
+        });
+});
 
 module.exports = router;
