@@ -17,7 +17,7 @@ router.post('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
     const idGroup = req.params.id;
-    Chat.find( { "idGroup": idGroup } ).then((chats) => {
+    Chat.find( { "idGroup": idGroup } ).populate('idUser').exec().then((chats) => {
         res.send(chats);
     });
 });
