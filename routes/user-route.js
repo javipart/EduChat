@@ -52,4 +52,12 @@ router.get('/teacher', (req, res) => {
     });
 });
 
+router.get('/:id', async (req, res) => {
+    const idUser = req.params.id;
+    await User.find({ "_id": idUser })
+        .then((user) => {
+            res.send(user); n
+        });
+});
+
 module.exports = router;

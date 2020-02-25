@@ -35,7 +35,7 @@ router.get('/:id', async (req, res) => {
         .populate('idTeacher')
         .exec()
         .then((groups) => {
-            res.send(groups); n
+            res.send(groups);
         });
 });
 
